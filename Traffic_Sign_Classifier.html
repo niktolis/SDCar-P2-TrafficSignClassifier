@@ -21243,30 +21243,6 @@ AIA24mENAAAAAAAAAABAG/GwBgAAAAAAAAAAoI3+f631FgV0S1P/AAAAAElFTkSuQmCC
     <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39;_fc1&#39;</span><span class="p">):</span>
         <span class="n">f0</span> <span class="o">=</span> <span class="n">flatten</span><span class="p">(</span><span class="n">pool2</span><span class="p">)</span>
         <span class="n">f1</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">dropout</span><span class="p">(</span><span class="n">linear_relu</span><span class="p">(</span><span class="n">f0</span><span class="p">,</span> <span class="n">W</span><span class="p">[</span><span class="s1">&#39;wd1&#39;</span><span class="p">],</span> <span class="n">b</span><span class="p">[</span><span class="s1">&#39;bd1&#39;</span><span class="p">]),</span> <span class="n">loc_fc1_keepprob</span><span class="p">)</span>
-        
-    <span class="c1">#with tf.variable_scope(name+&#39;_fc2&#39;):</span>
-    <span class="c1">#    f2 = tf.nn.dropout(linear_relu(f1, W[&#39;wd2&#39;], b[&#39;bd2&#39;]), loc_fc2_keepprob)</span>
-        
-    <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39;_out&#39;</span><span class="p">):</span>
-        <span class="n">out</span> <span class="o">=</span> <span class="n">loc_logits</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span> <span class="n">W</span><span class="p">[</span><span class="s1">&#39;out&#39;</span><span class="p">],</span> <span class="n">b</span><span class="p">[</span><span class="s1">&#39;out&#39;</span><span class="p">])</span>   
-    <span class="k">return</span> <span class="n">out</span>
-
-<span class="k">def</span> <span class="nf">locNet2</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;loc2&#39;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Localization network 2</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39;_conv1&#39;</span><span class="p">):</span>
-        <span class="n">pool1</span> <span class="o">=</span> <span class="n">conv2d_relu</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">W</span><span class="p">[</span><span class="s1">&#39;wc1&#39;</span><span class="p">],</span> <span class="n">b</span><span class="p">[</span><span class="s1">&#39;bc1&#39;</span><span class="p">],</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;SAME&#39;</span><span class="p">)</span>    
-        <span class="n">pool1</span> <span class="o">=</span> <span class="n">maxpool2d</span><span class="p">(</span><span class="n">pool1</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;SAME&#39;</span><span class="p">)</span>
-    <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39;_conv2&#39;</span><span class="p">):</span>
-        <span class="n">pool2</span> <span class="o">=</span> <span class="n">conv2d_relu</span><span class="p">(</span><span class="n">pool1</span><span class="p">,</span> <span class="n">W</span><span class="p">[</span><span class="s1">&#39;wc2&#39;</span><span class="p">],</span> <span class="n">b</span><span class="p">[</span><span class="s1">&#39;bc2&#39;</span><span class="p">],</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;SAME&#39;</span><span class="p">)</span>
-    <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39;_fc1&#39;</span><span class="p">):</span>
-        <span class="n">f0</span> <span class="o">=</span> <span class="n">flatten</span><span class="p">(</span><span class="n">pool2</span><span class="p">)</span>
-        <span class="n">f1</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">dropout</span><span class="p">(</span><span class="n">linear_relu</span><span class="p">(</span><span class="n">f0</span><span class="p">,</span> <span class="n">W</span><span class="p">[</span><span class="s1">&#39;wd1&#39;</span><span class="p">],</span> <span class="n">b</span><span class="p">[</span><span class="s1">&#39;bd1&#39;</span><span class="p">]),</span> <span class="n">loc_fc1_keepprob</span><span class="p">)</span>
-        
-    <span class="c1">#with tf.variable_scope(name+&#39;_fc2&#39;):</span>
-    <span class="c1">#    f2 = tf.nn.dropout(linear_relu(f1, W[&#39;wd2&#39;], b[&#39;bd2&#39;]), loc_fc2_keepprob)</span>
-        
     <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39;_out&#39;</span><span class="p">):</span>
         <span class="n">out</span> <span class="o">=</span> <span class="n">loc_logits</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span> <span class="n">W</span><span class="p">[</span><span class="s1">&#39;out&#39;</span><span class="p">],</span> <span class="n">b</span><span class="p">[</span><span class="s1">&#39;out&#39;</span><span class="p">])</span>   
     <span class="k">return</span> <span class="n">out</span>
@@ -21282,11 +21258,7 @@ AIA24mENAAAAAAAAAABAG/GwBgAAAAAAAAAAoI3+f631FgV0S1P/AAAAAElFTkSuQmCC
         <span class="n">pool2</span> <span class="o">=</span> <span class="n">maxpool2d</span><span class="p">(</span><span class="n">pool2</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;SAME&#39;</span><span class="p">)</span>    
     <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39;_fc1&#39;</span><span class="p">):</span>
         <span class="n">f0</span> <span class="o">=</span> <span class="n">flatten</span><span class="p">(</span><span class="n">pool2</span><span class="p">)</span>
-        <span class="n">f1</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">dropout</span><span class="p">(</span><span class="n">linear_relu</span><span class="p">(</span><span class="n">f0</span><span class="p">,</span> <span class="n">W</span><span class="p">[</span><span class="s1">&#39;wd1&#39;</span><span class="p">],</span> <span class="n">b</span><span class="p">[</span><span class="s1">&#39;bd1&#39;</span><span class="p">]),</span> <span class="n">loc_fc1_keepprob</span><span class="p">)</span>
-        
-    <span class="c1">#with tf.variable_scope(name+&#39;_fc2&#39;):</span>
-    <span class="c1">#    f2 = tf.nn.dropout(linear_relu(f1, W[&#39;wd2&#39;], b[&#39;bd2&#39;]), loc_fc2_keepprob)</span>
-        
+        <span class="n">f1</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">dropout</span><span class="p">(</span><span class="n">linear_relu</span><span class="p">(</span><span class="n">f0</span><span class="p">,</span> <span class="n">W</span><span class="p">[</span><span class="s1">&#39;wd1&#39;</span><span class="p">],</span> <span class="n">b</span><span class="p">[</span><span class="s1">&#39;bd1&#39;</span><span class="p">]),</span> <span class="n">loc_fc1_keepprob</span><span class="p">)</span>      
     <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39;_out&#39;</span><span class="p">):</span>
         <span class="n">out</span> <span class="o">=</span> <span class="n">loc_logits</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span> <span class="n">W</span><span class="p">[</span><span class="s1">&#39;out&#39;</span><span class="p">],</span> <span class="n">b</span><span class="p">[</span><span class="s1">&#39;out&#39;</span><span class="p">])</span>   
     <span class="k">return</span> <span class="n">out</span>
@@ -21315,14 +21287,6 @@ AIA24mENAAAAAAAAAABAG/GwBgAAAAAAAAAAoI3+f631FgV0S1P/AAAAAElFTkSuQmCC
 <span class="sd">    Spatial Transformer 1</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">theta</span> <span class="o">=</span> <span class="n">locNet1</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">W_shape</span><span class="p">,</span> <span class="n">b_shape</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;loc1&#39;</span><span class="p">)</span>
-    <span class="n">x_t</span> <span class="o">=</span> <span class="n">transformer</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">out_dims</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">x_t</span><span class="p">,</span> <span class="n">theta</span>
-
-<span class="k">def</span> <span class="nf">st2</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">W_shape</span><span class="p">,</span> <span class="n">b_shape</span><span class="p">,</span> <span class="n">out_dims</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Spatial Transformer 2</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">theta</span> <span class="o">=</span> <span class="n">locNet2</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">W_shape</span><span class="p">,</span> <span class="n">b_shape</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;loc2&#39;</span><span class="p">)</span>
     <span class="n">x_t</span> <span class="o">=</span> <span class="n">transformer</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">out_dims</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">x_t</span><span class="p">,</span> <span class="n">theta</span>
 
@@ -21374,7 +21338,6 @@ AIA24mENAAAAAAAAAABAG/GwBgAAAAAAAAAAoI3+f631FgV0S1P/AAAAAElFTkSuQmCC
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The basis implementation of the inception layer</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    
     <span class="c1"># Convolution 1x1 </span>
     <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39;_conv1x1&#39;</span><span class="p">):</span>
         <span class="n">conv1x1</span> <span class="o">=</span> <span class="n">conv2d_relu</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">W</span><span class="p">[</span><span class="s1">&#39;w1x1&#39;</span><span class="p">],</span> <span class="n">b</span><span class="p">[</span><span class="s1">&#39;b1x1&#39;</span><span class="p">],</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;SAME&#39;</span><span class="p">)</span>
@@ -21416,7 +21379,8 @@ AIA24mENAAAAAAAAAABAG/GwBgAAAAAAAAAAoI3+f631FgV0S1P/AAAAAElFTkSuQmCC
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">inception3</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    TODO: Add description</span>
+<span class="sd">    Inception Intermediate Layers 3a and 3b</span>
+<span class="sd">    In the middle there is an ST implemented</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Inception Layer 3a: Input = 16x16x192, Output = 16x16x288</span>
     <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">name_scope</span><span class="p">(</span><span class="s1">&#39;inception3a&#39;</span><span class="p">):</span>
@@ -21432,7 +21396,7 @@ AIA24mENAAAAAAAAAABAG/GwBgAAAAAAAAAAoI3+f631FgV0S1P/AAAAAElFTkSuQmCC
 
 <span class="k">def</span> <span class="nf">inception4</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    TODO: Add description</span>
+<span class="sd">     Inception Intermediate Layers 4a, 4b, 4c, 4d, 4e</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Inception 4a: Input = 8x8x480, Output = 8x8x512 </span>
     <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">name_scope</span><span class="p">(</span><span class="s1">&#39;inception4a&#39;</span><span class="p">):</span>
@@ -21453,7 +21417,7 @@ AIA24mENAAAAAAAAAABAG/GwBgAAAAAAAAAAoI3+f631FgV0S1P/AAAAAElFTkSuQmCC
 
 <span class="k">def</span> <span class="nf">inception5</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    TODO: Add description</span>
+<span class="sd">    Inception Intermediate layers 5a and 5b</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Inception 5a: Input = 4x4x832, Output = 4x4x832 (5a)</span>
     <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">name_scope</span><span class="p">(</span><span class="s1">&#39;inception5a&#39;</span><span class="p">):</span>
@@ -21520,9 +21484,6 @@ AIA24mENAAAAAAAAAABAG/GwBgAAAAAAAAAAoI3+f631FgV0S1P/AAAAAElFTkSuQmCC
     <span class="c1"># Pooling. Input = 64x64x64, Output = 32x32x64.</span>
     <span class="n">conv1</span> <span class="o">=</span> <span class="n">maxpool2d</span><span class="p">(</span><span class="n">conv1</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;SAME&#39;</span><span class="p">)</span>
     
-    <span class="c1">#with tf.name_scope(&#39;stn2&#39;):</span>
-    <span class="c1">#    conv1_t, theta2 = st2(conv1, locNet2_W, locNet2_b, (32, 32))</span>
-    
     <span class="c1"># Layer 2: Convolutional. Input = 32x32x64, Output = 32x32x192.</span>
     <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="s1">&#39;conv2&#39;</span><span class="p">):</span>
         <span class="n">conv2</span> <span class="o">=</span> <span class="n">conv2d_relu</span><span class="p">(</span><span class="n">conv1</span><span class="p">,</span> <span class="n">Net_W</span><span class="p">[</span><span class="s1">&#39;wc2&#39;</span><span class="p">],</span> <span class="n">Net_b</span><span class="p">[</span><span class="s1">&#39;bc2&#39;</span><span class="p">],</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;SAME&#39;</span><span class="p">)</span>
@@ -21530,19 +21491,22 @@ AIA24mENAAAAAAAAAABAG/GwBgAAAAAAAAAAoI3+f631FgV0S1P/AAAAAElFTkSuQmCC
     <span class="c1"># Pooling. Input = 32x32x192. Output = 16x16x192.</span>
     <span class="n">conv2</span> <span class="o">=</span> <span class="n">maxpool2d</span><span class="p">(</span><span class="n">conv2</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;SAME&#39;</span><span class="p">)</span>
     
+    <span class="c1"># Spatial Transformation</span>
     <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">name_scope</span><span class="p">(</span><span class="s1">&#39;stn3&#39;</span><span class="p">):</span>
         <span class="n">conv2_t</span><span class="p">,</span> <span class="n">theta2</span> <span class="o">=</span> <span class="n">st3</span><span class="p">(</span><span class="n">conv2</span><span class="p">,</span> <span class="n">locNet3_W</span><span class="p">,</span> <span class="n">locNet3_b</span><span class="p">,</span> <span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">))</span>
     
+    <span class="c1">### Inception Layers ###</span>
     <span class="n">inceptionL3</span><span class="p">,</span> <span class="n">inception3a_t</span><span class="p">,</span> <span class="n">theta3</span> <span class="o">=</span> <span class="n">inception3</span><span class="p">(</span><span class="n">conv2_t</span><span class="p">)</span>
     
     <span class="n">inceptionL3</span> <span class="o">=</span> <span class="n">maxpool2d</span><span class="p">(</span><span class="n">inceptionL3</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
     <span class="n">inceptionL4</span> <span class="o">=</span> <span class="n">inception4</span><span class="p">(</span><span class="n">inceptionL3</span><span class="p">)</span>
-    
-    <span class="c1"># Pooling: Input = 8x8x832, Output = 4x4x832 </span>
+     
     <span class="n">net</span> <span class="o">=</span> <span class="n">maxpool2d</span><span class="p">(</span><span class="n">inceptionL4</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;SAME&#39;</span><span class="p">)</span>
 
     <span class="n">inceptionL5</span> <span class="o">=</span> <span class="n">inception5</span><span class="p">(</span><span class="n">net</span><span class="p">)</span>
+    
+    <span class="c1">### End of Inception Layers ###</span>
     
     <span class="c1"># Pooling: Input = 4x4x1024, Output = 1x1x1024</span>
     <span class="n">avg_pool</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">avg_pool</span><span class="p">(</span><span class="n">inceptionL5</span><span class="p">,</span> <span class="n">ksize</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">strides</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;SAME&#39;</span><span class="p">)</span>
