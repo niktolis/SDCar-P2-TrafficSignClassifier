@@ -1,7 +1,7 @@
 # Localization Networks Weight Shapes
 
 locNet1_W = {
-    'wc1' : [5, 5,   1, 128],
+    'wc1' : [5, 5,   3, 128],
     'wc2' : [5, 5, 128, 192],
     'wd1' : [768, 192],
 	'wd2' : [192, 192],
