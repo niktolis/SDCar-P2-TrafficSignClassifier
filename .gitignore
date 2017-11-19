@@ -5,3 +5,6 @@ models
 *.swp
 *.p
 __pycache__
+model/Net_Epoch_86_acc_0.986.data-00000-of-00001
+model/Net_Epoch_90_acc_0.986.data-00000-of-00001
+model/Net_Epoch_100_acc_0.984.data-00000-of-00001
