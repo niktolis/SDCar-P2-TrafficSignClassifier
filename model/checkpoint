@@ -1,0 +1,4 @@
+model_checkpoint_path: "Net_Epoch_90_acc_0.986"
+all_model_checkpoint_paths: "Net_Epoch_86_acc_0.986"
+all_model_checkpoint_paths: "Net_Epoch_90_acc_0.986"
+all_model_checkpoint_paths: "Net_Epoch_100_acc_0.984"
